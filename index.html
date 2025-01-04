@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Web Portofolio Dio</title>
     <style>
         @font-face {
-            font-family: "Horizon";
-            src: url("horizon-font.woff2") format("woff2");
+            font-family: "Anton";
+            src: url("anton-font.woff2") format("woff2");
         }
 
         body {
@@ -16,6 +17,7 @@
             background-color: #4b5320; 
             color: black; 
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
@@ -23,27 +25,61 @@
             text-align: center;
             overflow: hidden;
         }
-        h1 {
-            font-size: 4rem; 
-            color: black;
-        }
-        #movable-text {
-            position: absolute;
+        .movable-text {
+            position: relative;
             font-size: 3rem;
-            font-family: "Horizon", sans-serif;
-            color: black;
-            transition: transform 0.2s ease-in-out;
+            font-family: "Anton", sans-serif;
+            color: white;
+            transition: transform 0.1s ease-in-out;
+            margin: 10px 0;
+        }
+        .rounded-square {
+            position: fixed;
+            top: -80px; /* Awalnya di luar layar */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 1900px;
+            height: 100px;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: top 0.3s ease-in-out;
+        }
+        .rounded-square.visible {
+            top: 10px; /* Muncul di dalam layar */
         }
     </style>
     <script>
         document.addEventListener("mousemove", (event) => {
-            const text = document.getElementById("movable-text");
-            const x = (event.clientX / window.innerWidth - 0.5) * 10; 
-            text.style.transform = `translateX(${x}%)`; 
+            const maxMovement = 10; // Batas gerakan dalam piksel
+
+            // Hitung gerakan untuk teks atas
+            const xMovementTop = Math.max(Math.min((event.clientX / window.innerWidth - 0.5) * 50, maxMovement), -maxMovement);
+            const yMovementTop = Math.max(Math.min((event.clientY / window.innerHeight - 0.5) * -50, maxMovement), -maxMovement);
+            const finalMovementTop = xMovementTop + yMovementTop;
+
+            // Hitung gerakan untuk teks bawah (kebalikan)
+            const xMovementBottom = Math.max(Math.min((event.clientX / window.innerWidth - 0.5) * -50, maxMovement), -maxMovement);
+            const yMovementBottom = Math.max(Math.min((event.clientY / window.innerHeight - 0.5) * 50, maxMovement), -maxMovement);
+            const finalMovementBottom = xMovementBottom + yMovementBottom;
+
+            // Terapkan gerakan pada teks atas dan bawah
+            document.getElementById("movable-text-top").style.transform = `translateX(${finalMovementTop}px)`;
+            document.getElementById("movable-text-bottom").style.transform = `translateX(${finalMovementBottom}px)`;
+
+            // Tampilkan rounded square jika mouse di atas layar
+            const roundedSquare = document.getElementById("rounded-square");
+            if (event.clientY < 50) {
+                roundedSquare.classList.add("visible");
+            } else {
+                roundedSquare.classList.remove("visible");
+            }
         });
     </script>
 </head>
 <body>
-    <div id="movable-text">Tambahkan Text Tambahkan Text Tambahkan Text Tambahkan Text Tambahkan Text Tambahkan Text </div>
+    <div id="movable-text-top" class="movable-text">Tambahkan Text Tambahkan Text Tambahkan Text Tambahkan Text Tambahkan Text Tambahkan Text</div>
+    <div id="movable-text-bottom" class="movable-text">Tambahkan Text Tambahkan Text Tambahkan Text Tambahkan Text Tambahkan Text Tambahkan Text</div>
+    <div id="rounded-square" class="rounded-square"></div>
 </body>
 </html>
