@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Portofolio Dio</title>
+    <style>
+        @font-face {
+            font-family: "Horizon";
+            src: url("horizon-font.woff2") format("woff2");
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #4b5320; 
+            color: black; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            overflow: hidden;
+        }
+        h1 {
+            font-size: 4rem; 
+            color: black;
+        }
+        #movable-text {
+            position: absolute;
+            font-size: 3rem;
+            font-family: "Horizon", sans-serif;
+            color: black;
+            transition: transform 0.2s ease-in-out;
+        }
+    </style>
+    <script>
+        document.addEventListener("mousemove", (event) => {
+            const text = document.getElementById("movable-text");
+            const x = (event.clientX / window.innerWidth - 0.5) * 10; 
+            text.style.transform = `translateX(${x}%)`; 
+        });
+    </script>
+</head>
+<body>
+    <div id="movable-text">Tambahkan Text Tambahkan Text Tambahkan Text Tambahkan Text Tambahkan Text Tambahkan Text </div>
+</body>
+</html>
