@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Web Portofolio Dio</title>
@@ -11,75 +10,198 @@
             src: url("anton-font.woff2") format("woff2");
         }
 
+        /* Menambahkan font Monotype Corsiva untuk teks */
+        @font-face {
+            font-family: "Monotype Corsiva";
+            src: url("https://fonts.googleapis.com/css2?family=Monotype+Corsiva&display=swap");
+        }
+
         body {
             margin: 0;
             padding: 0;
-            background-color: #4b5320; 
-            color: black; 
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
             font-family: Arial, sans-serif;
+            overflow-x: hidden; 
+        }
+
+        .content {
+            height: 100vh;
+            display: flex;
+            justify-content: absolute;
+            align-items: center;
             text-align: center;
-            overflow: hidden;
         }
-        .movable-text {
-            position: relative;
-            font-size: 3rem;
-            font-family: "Anton", sans-serif;
+
+        /* Gambar pertama dengan posisi yang diubah */
+        .content img {
+            width: 600px;
+            height: 400px;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            position: absolute; /* Agar gambar bisa dipindah */
+            left: 200px;  /* Atur posisi X di sini */
+            top: 50px;   /* Atur posisi Y di sini */
+        }
+
+        /* Teks "Creative Portfolio" di sebelah kanan gambar pertama */
+        .text {
+            position: absolute;
+            left: 950px;  /* Posisi X di sebelah kanan gambar */
+            top: 150px;   /* Posisi Y sedikit lebih rendah dari gambar */
+            font-family: "Monotype Corsiva", cursive;
+            font-size: 10rem; /* Ukuran font besar */
+            color: rgb(0, 0, 0);
+        }
+
+        /* Teks "Creative Portfolio" di sebelah kanan gambar pertama */
+        .text1 {
+            position: absolute;
+            left: 1000px;  /* Posisi X di sebelah kanan gambar */
+            top: 300px;   /* Posisi Y sedikit lebih rendah dari gambar */
+            font-family: "Monotype Corsiva", cursive;
+            font-size: 10rem; /* Ukuran font besar */
+            color: rgb(0, 0, 0);
+        }
+
+        .contact-btn {
+            position: absolute;
+            left: 1100px;
+            top: 500px; /* Posisi Y setelah teks "Dio Photographer" */
+            background-color: #ff6600; /* Warna oranye */
             color: white;
-            transition: transform 0.1s ease-in-out;
-            margin: 10px 0;
+            padding: 15px 30px;
+            font-family: "Arial", sans-serif;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s;
         }
+
+        .contact-btn:hover {
+            background-color: #ff8533; /* Warna lebih terang saat hover */
+        }
+
+        /* Gambar kedua yang baru ditambahkan */
+        .content1 img {
+            width: 600px;
+            height: 400px;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            position: absolute; /* Agar gambar bisa dipindah */
+            left: 200px;  /* Atur posisi X di sini */
+            top: 500px;   /* Atur posisi Y di sini, di bawah gambar pertama */
+        }
+
         .rounded-square {
             position: fixed;
-            top: -80px; /* Awalnya di luar layar */
+            bottom: -100%; 
             left: 50%;
             transform: translateX(-50%);
-            width: 1900px;
-            height: 100px;
-            background-color: white;
-            border-radius: 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: top 0.3s ease-in-out;
+            width: 80%;
+            height: 80%;
+            background-color: #f8f9fa;
+            border-radius: 30px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            z-index: 10;
+            transition: all 0.6s ease; 
         }
+
         .rounded-square.visible {
-            top: 10px; /* Muncul di dalam layar */
+            bottom: 0; 
+        }
+
+        .rounded-square.fullscreen {
+            width: 100%;
+            height: 100%;
+            border-radius: 0;
+        }
+
+        .rounded-square-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            flex-direction: column;
+            opacity: 0;
+            transition: opacity 0.6s ease;
+        }
+
+        .rounded-square.visible .rounded-square-content {
+            opacity: 1;
+        }
+
+        .other-content {
+            height: 100vh;
+            background-color: #e9ecef;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .other-content h2 {
+            font-size: 2rem;
         }
     </style>
-    <script>
-        document.addEventListener("mousemove", (event) => {
-            const maxMovement = 10; // Batas gerakan dalam piksel
-
-            // Hitung gerakan untuk teks atas
-            const xMovementTop = Math.max(Math.min((event.clientX / window.innerWidth - 0.5) * 50, maxMovement), -maxMovement);
-            const yMovementTop = Math.max(Math.min((event.clientY / window.innerHeight - 0.5) * -50, maxMovement), -maxMovement);
-            const finalMovementTop = xMovementTop + yMovementTop;
-
-            // Hitung gerakan untuk teks bawah (kebalikan)
-            const xMovementBottom = Math.max(Math.min((event.clientX / window.innerWidth - 0.5) * -50, maxMovement), -maxMovement);
-            const yMovementBottom = Math.max(Math.min((event.clientY / window.innerHeight - 0.5) * 50, maxMovement), -maxMovement);
-            const finalMovementBottom = xMovementBottom + yMovementBottom;
-
-            // Terapkan gerakan pada teks atas dan bawah
-            document.getElementById("movable-text-top").style.transform = `translateX(${finalMovementTop}px)`;
-            document.getElementById("movable-text-bottom").style.transform = `translateX(${finalMovementBottom}px)`;
-
-            // Tampilkan rounded square jika mouse di atas layar
-            const roundedSquare = document.getElementById("rounded-square");
-            if (event.clientY < 50) {
-                roundedSquare.classList.add("visible");
-            } else {
-                roundedSquare.classList.remove("visible");
-            }
-        });
-    </script>
 </head>
 <body>
-    <div id="movable-text-top" class="movable-text">Tambahkan Text Tambahkan Text Tambahkan Text Tambahkan Text Tambahkan Text Tambahkan Text</div>
-    <div id="movable-text-bottom" class="movable-text">Tambahkan Text Tambahkan Text Tambahkan Text Tambahkan Text Tambahkan Text Tambahkan Text</div>
-    <div id="rounded-square" class="rounded-square"></div>
+  
+    <div class="content img">
+        <img src="Images/Gambar bajai 2.jpeg" alt="Sample Image">
+    </div>
+
+    <!-- Teks "Creative Portfolio" di sebelah kanan gambar pertama -->
+    <div class="text">
+        Creative
+    </div>
+
+    <div class="text1">
+        Portofolio
+    </div>
+
+    <!-- Tombol "Contact Now!" untuk menampilkan rounded square -->
+    <button class="contact-btn" onclick="showRoundedSquare()">Contact Now!</button>
+
+    <!-- Gambar kedua ditambahkan di bawah gambar pertama -->
+    <div class="content1 img">
+        <img src="Images/Gambar tukang parkir 3.jpeg" alt="Sample Image">
+    </div>
+
+    <div class="rounded-square" id="rounded-square">
+        <div class="rounded-square-content">
+            <h2>Rounded Square Content</h2>
+            <p>Konten yang lainnya ada disini</p>
+        </div>
+    </div>
+
+    <div class="other-content">
+        <h2>More Content Here!</h2>
+    </div>
+
+    <script>
+        let lastScrollY = window.scrollY;
+        const roundedSquare = document.getElementById("rounded-square");
+
+        window.addEventListener("scroll", () => {
+            const currentScrollY = window.scrollY;
+
+            if (currentScrollY > 50 && currentScrollY < 300) {
+                roundedSquare.classList.add("visible");
+                roundedSquare.classList.remove("fullscreen");
+            } 
+            else if (currentScrollY >= 300) {
+                roundedSquare.classList.add("fullscreen");
+            } 
+            else {
+                roundedSquare.classList.remove("visible");
+                roundedSquare.classList.remove("fullscreen");
+            }
+
+            lastScrollY = currentScrollY;
+        });
+        function showRoundedSquare() {
+            roundedSquare.classList.add("visible") and roundedSquare.classList.add("fullscreen");
+        }
+    </script>
 </body>
 </html>
